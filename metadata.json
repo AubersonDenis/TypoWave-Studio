@@ -1,0 +1,6 @@
+{
+  "name": "TypoWave Studio",
+  "description": "Atelier de création typographique variable réactive au son et au microphone en temps réel.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

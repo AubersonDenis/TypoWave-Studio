@@ -1,0 +1,627 @@
+[
+  {
+    "id": "roboto-flex",
+    "name": "Roboto Flex",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Font Bureau, David Berlow",
+    "sourceUrl": "https://fonts.google.com/specimen/Roboto+Flex",
+    "googleFontFamily": "Roboto+Flex:opsz,slnt,wdth,wght@8..144,-10..0,25..151,100..1000",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 1000, "defaultVal": 400, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 25, "max": 151, "defaultVal": 100, "step": 1 },
+      { "tag": "slnt", "name": "Inclinaison (Slant)", "min": -10, "max": 0, "defaultVal": 0, "step": 0.5 },
+      { "tag": "opsz", "name": "Taille optique (Optical)", "min": 8, "max": 144, "defaultVal": 14, "step": 1 }
+    ]
+  },
+  {
+    "id": "recursive",
+    "name": "Recursive",
+    "category": "monospace",
+    "license": "SIL Open Font License 1.1",
+    "author": "Arrow Type, Stephen Nixon",
+    "sourceUrl": "https://fonts.google.com/specimen/Recursive",
+    "googleFontFamily": "Recursive:CASL,CRSV,MONO,slnt,wght@0..1,0..1,0..1,-15..0,300..1000",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 1000, "defaultVal": 500, "step": 10 },
+      { "tag": "slnt", "name": "Inclinaison (Slant)", "min": -15, "max": 0, "defaultVal": 0, "step": 1 },
+      { "tag": "CASL", "name": "Casual (Tracé manuscrit)", "min": 0, "max": 1, "defaultVal": 0, "step": 0.05 },
+      { "tag": "CRSV", "name": "Cursive (Ligatures)", "min": 0, "max": 1, "defaultVal": 0, "step": 0.05 },
+      { "tag": "MONO", "name": "Monospace", "min": 0, "max": 1, "defaultVal": 0, "step": 0.05 }
+    ]
+  },
+  {
+    "id": "fraunces",
+    "name": "Fraunces",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Undercase Type, Phaedra Charles, Flavia Zimbardi",
+    "sourceUrl": "https://fonts.google.com/specimen/Fraunces",
+    "googleFontFamily": "Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "opsz", "name": "Taille optique", "min": 9, "max": 144, "defaultVal": 72, "step": 1 },
+      { "tag": "SOFT", "name": "Douceur (Softness)", "min": 0, "max": 100, "defaultVal": 0, "step": 1 },
+      { "tag": "WONK", "name": "Wonky (Excentrique)", "min": 0, "max": 1, "defaultVal": 0, "step": 0.05 }
+    ]
+  },
+  {
+    "id": "commissioner",
+    "name": "Commissioner",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Kostas Bartsokas",
+    "sourceUrl": "https://fonts.google.com/specimen/Commissioner",
+    "googleFontFamily": "Commissioner:FLAR,VOLM,slnt,wght@0..100,0..100,-12..0,100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "slnt", "name": "Inclinaison (Slant)", "min": -12, "max": 0, "defaultVal": 0, "step": 0.5 },
+      { "tag": "FLAR", "name": "Évasement (Flare)", "min": 0, "max": 100, "defaultVal": 0, "step": 1 },
+      { "tag": "VOLM", "name": "Volume", "min": 0, "max": 100, "defaultVal": 0, "step": 1 }
+    ]
+  },
+  {
+    "id": "inconsolata",
+    "name": "Inconsolata",
+    "category": "monospace",
+    "license": "SIL Open Font License 1.1",
+    "author": "Raph Levien",
+    "sourceUrl": "https://fonts.google.com/specimen/Inconsolata",
+    "googleFontFamily": "Inconsolata:wdth,wght@50..200,200..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 50, "max": 200, "defaultVal": 100, "step": 1 }
+    ]
+  },
+  {
+    "id": "archivo",
+    "name": "Archivo",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Omnibus-Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Archivo",
+    "googleFontFamily": "Archivo:wdth,wght@62..125,100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 62, "max": 125, "defaultVal": 100, "step": 1 }
+    ]
+  },
+  {
+    "id": "cabin",
+    "name": "Cabin",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Impallari Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Cabin",
+    "googleFontFamily": "Cabin:wdth,wght@75..100,400..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 700, "defaultVal": 400, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 75, "max": 100, "defaultVal": 100, "step": 1 }
+    ]
+  },
+  {
+    "id": "bodoni-moda",
+    "name": "Bodoni Moda",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Owen Earl",
+    "sourceUrl": "https://fonts.google.com/specimen/Bodoni+Moda",
+    "googleFontFamily": "Bodoni+Moda:opsz,wght@6..96,400..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 900, "defaultVal": 500, "step": 10 },
+      { "tag": "opsz", "name": "Taille optique", "min": 6, "max": 96, "defaultVal": 36, "step": 1 }
+    ]
+  },
+  {
+    "id": "newsreader",
+    "name": "Newsreader",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Production Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Newsreader",
+    "googleFontFamily": "Newsreader:opsz,wght@6..72,200..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 800, "defaultVal": 400, "step": 10 },
+      { "tag": "opsz", "name": "Taille optique", "min": 6, "max": 72, "defaultVal": 24, "step": 1 }
+    ]
+  },
+  {
+    "id": "literata",
+    "name": "Literata",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "TypeTogether",
+    "sourceUrl": "https://fonts.google.com/specimen/Literata",
+    "googleFontFamily": "Literata:opsz,wght@7..72,200..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "opsz", "name": "Taille optique", "min": 7, "max": 72, "defaultVal": 24, "step": 1 }
+    ]
+  },
+  {
+    "id": "dm-sans",
+    "name": "DM Sans",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Colophon Foundry",
+    "sourceUrl": "https://fonts.google.com/specimen/DM+Sans",
+    "googleFontFamily": "DM+Sans:opsz,wght@9..40,100..1000",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 1000, "defaultVal": 400, "step": 10 },
+      { "tag": "opsz", "name": "Taille optique", "min": 9, "max": 40, "defaultVal": 20, "step": 1 }
+    ]
+  },
+  {
+    "id": "inter",
+    "name": "Inter",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Rasmus Andersson",
+    "sourceUrl": "https://fonts.google.com/specimen/Inter",
+    "googleFontFamily": "Inter:slnt,wght@-10..0,100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "slnt", "name": "Inclinaison (Slant)", "min": -10, "max": 0, "defaultVal": 0, "step": 0.5 }
+    ]
+  },
+  {
+    "id": "syne",
+    "name": "Syne",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "Bonjour Monde, Lucas Le Bihan",
+    "sourceUrl": "https://fonts.google.com/specimen/Syne",
+    "googleFontFamily": "Syne:wght@400..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 800, "defaultVal": 600, "step": 10 }
+    ]
+  },
+  {
+    "id": "space-grotesk",
+    "name": "Space Grotesk",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "Florian Karsten",
+    "sourceUrl": "https://fonts.google.com/specimen/Space+Grotesk",
+    "googleFontFamily": "Space+Grotesk:wght@300..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 700, "defaultVal": 500, "step": 10 }
+    ]
+  },
+  {
+    "id": "unbounded",
+    "name": "Unbounded",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "NaN, Luke Prowse",
+    "sourceUrl": "https://fonts.google.com/specimen/Unbounded",
+    "googleFontFamily": "Unbounded:wght@200..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 900, "defaultVal": 600, "step": 10 }
+    ]
+  },
+  {
+    "id": "bricolage-grotesque",
+    "name": "Bricolage Grotesque",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "Mathieu Triay",
+    "sourceUrl": "https://fonts.google.com/specimen/Bricolage+Grotesque",
+    "googleFontFamily": "Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 800, "defaultVal": 500, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 75, "max": 100, "defaultVal": 100, "step": 1 },
+      { "tag": "opsz", "name": "Taille optique", "min": 12, "max": 96, "defaultVal": 48, "step": 1 }
+    ]
+  },
+  {
+    "id": "montserrat",
+    "name": "Montserrat",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Julieta Ulanovsky",
+    "sourceUrl": "https://fonts.google.com/specimen/Montserrat",
+    "googleFontFamily": "Montserrat:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "oswald",
+    "name": "Oswald",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Vernon Adams",
+    "sourceUrl": "https://fonts.google.com/specimen/Oswald",
+    "googleFontFamily": "Oswald:wght@200..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 700, "defaultVal": 500, "step": 10 }
+    ]
+  },
+  {
+    "id": "plus-jakarta-sans",
+    "name": "Plus Jakarta Sans",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Tokotype, Gumpita Rahayu",
+    "sourceUrl": "https://fonts.google.com/specimen/Plus+Jakarta+Sans",
+    "googleFontFamily": "Plus+Jakarta+Sans:wght@200..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "work-sans",
+    "name": "Work Sans",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Wei Huang",
+    "sourceUrl": "https://fonts.google.com/specimen/Work+Sans",
+    "googleFontFamily": "Work+Sans:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "rubik",
+    "name": "Rubik",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Hubert and Fischer",
+    "sourceUrl": "https://fonts.google.com/specimen/Rubik",
+    "googleFontFamily": "Rubik:wght@300..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "outfit",
+    "name": "Outfit",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Outfit, Rodrigo Fuenzalida",
+    "sourceUrl": "https://fonts.google.com/specimen/Outfit",
+    "googleFontFamily": "Outfit:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "manrope",
+    "name": "Manrope",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Mikhail Sharanda",
+    "sourceUrl": "https://fonts.google.com/specimen/Manrope",
+    "googleFontFamily": "Manrope:wght@200..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "lexend",
+    "name": "Lexend",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Thomas Jockin",
+    "sourceUrl": "https://fonts.google.com/specimen/Lexend",
+    "googleFontFamily": "Lexend:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "urbanist",
+    "name": "Urbanist",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Corey Hu",
+    "sourceUrl": "https://fonts.google.com/specimen/Urbanist",
+    "googleFontFamily": "Urbanist:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "sora",
+    "name": "Sora",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Barnbrook, Jonathan Barnbrook",
+    "sourceUrl": "https://fonts.google.com/specimen/Sora",
+    "googleFontFamily": "Sora:wght@100..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "epilogue",
+    "name": "Epilogue",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Tyler Finck, Etcetera Type Co",
+    "sourceUrl": "https://fonts.google.com/specimen/Epilogue",
+    "googleFontFamily": "Epilogue:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "chivo",
+    "name": "Chivo",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Omnibus-Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Chivo",
+    "googleFontFamily": "Chivo:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "josefin-sans",
+    "name": "Josefin Sans",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Santiago Orozco",
+    "sourceUrl": "https://fonts.google.com/specimen/Josefin+Sans",
+    "googleFontFamily": "Josefin+Sans:wght@100..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 700, "defaultVal": 300, "step": 10 }
+    ]
+  },
+  {
+    "id": "jost",
+    "name": "Jost",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Owen Earl",
+    "sourceUrl": "https://fonts.google.com/specimen/Jost",
+    "googleFontFamily": "Jost:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "karla",
+    "name": "Karla",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Jonny Pinhorn",
+    "sourceUrl": "https://fonts.google.com/specimen/Karla",
+    "googleFontFamily": "Karla:wght@200..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "comfortaa",
+    "name": "Comfortaa",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "Johan Aakerlund",
+    "sourceUrl": "https://fonts.google.com/specimen/Comfortaa",
+    "googleFontFamily": "Comfortaa:wght@300..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 700, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "libre-franklin",
+    "name": "Libre Franklin",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Impallari Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Libre+Franklin",
+    "googleFontFamily": "Libre+Franklin:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "red-hat-display",
+    "name": "Red Hat Display",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "MCKL, Jeremy Mickel",
+    "sourceUrl": "https://fonts.google.com/specimen/Red+Hat+Display",
+    "googleFontFamily": "Red+Hat+Display:wght@300..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 900, "defaultVal": 500, "step": 10 }
+    ]
+  },
+  {
+    "id": "playfair-display",
+    "name": "Playfair Display",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Claus Eggers Sørensen",
+    "sourceUrl": "https://fonts.google.com/specimen/Playfair+Display",
+    "googleFontFamily": "Playfair+Display:wght@400..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 900, "defaultVal": 600, "step": 10 }
+    ]
+  },
+  {
+    "id": "cormorant",
+    "name": "Cormorant",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Christian Thalmann",
+    "sourceUrl": "https://fonts.google.com/specimen/Cormorant",
+    "googleFontFamily": "Cormorant:wght@300..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 700, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "eb-garamond",
+    "name": "EB Garamond",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Georg Duffner, Octavio Pardo",
+    "sourceUrl": "https://fonts.google.com/specimen/EB+Garamond",
+    "googleFontFamily": "EB+Garamond:wght@400..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "bitter",
+    "name": "Bitter",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Sol Matas",
+    "sourceUrl": "https://fonts.google.com/specimen/Bitter",
+    "googleFontFamily": "Bitter:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "cinzel",
+    "name": "Cinzel",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Natanael Gama",
+    "sourceUrl": "https://fonts.google.com/specimen/Cinzel",
+    "googleFontFamily": "Cinzel:wght@400..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 900, "defaultVal": 600, "step": 10 }
+    ]
+  },
+  {
+    "id": "petrona",
+    "name": "Petrona",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Ringo R. Romei",
+    "sourceUrl": "https://fonts.google.com/specimen/Petrona",
+    "googleFontFamily": "Petrona:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "biorhyme",
+    "name": "BioRhyme",
+    "category": "serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Aoife Mooney",
+    "sourceUrl": "https://fonts.google.com/specimen/BioRhyme",
+    "googleFontFamily": "BioRhyme:wght@200..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "fira-code",
+    "name": "Fira Code",
+    "category": "monospace",
+    "license": "SIL Open Font License 1.1",
+    "author": "Nikita Prokopov",
+    "sourceUrl": "https://fonts.google.com/specimen/Fira+Code",
+    "googleFontFamily": "Fira+Code:wght@300..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 700, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "jetbrains-mono",
+    "name": "JetBrains Mono",
+    "category": "monospace",
+    "license": "SIL Open Font License 1.1",
+    "author": "JetBrains, Philipp Nurullin",
+    "sourceUrl": "https://fonts.google.com/specimen/JetBrains+Mono",
+    "googleFontFamily": "JetBrains+Mono:wght@100..800",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 800, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "source-code-pro",
+    "name": "Source Code Pro",
+    "category": "monospace",
+    "license": "SIL Open Font License 1.1",
+    "author": "Paul D. Hunt",
+    "sourceUrl": "https://fonts.google.com/specimen/Source+Code+Pro",
+    "googleFontFamily": "Source+Code+Pro:wght@200..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 200, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "caveat",
+    "name": "Caveat",
+    "category": "handwriting",
+    "license": "SIL Open Font License 1.1",
+    "author": "Impallari Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Caveat",
+    "googleFontFamily": "Caveat:wght@400..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 700, "defaultVal": 500, "step": 10 }
+    ]
+  },
+  {
+    "id": "dancing-script",
+    "name": "Dancing Script",
+    "category": "handwriting",
+    "license": "SIL Open Font License 1.1",
+    "author": "Impallari Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Dancing+Script",
+    "googleFontFamily": "Dancing+Script:wght@400..700",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 400, "max": 700, "defaultVal": 600, "step": 10 }
+    ]
+  },
+  {
+    "id": "figtree",
+    "name": "Figtree",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Erik Kennedy",
+    "sourceUrl": "https://fonts.google.com/specimen/Figtree",
+    "googleFontFamily": "Figtree:wght@300..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 300, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "albert-sans",
+    "name": "Albert Sans",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Andreas Kalpakidis",
+    "sourceUrl": "https://fonts.google.com/specimen/Albert+Sans",
+    "googleFontFamily": "Albert+Sans:wght@100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 }
+    ]
+  },
+  {
+    "id": "tourney",
+    "name": "Tourney",
+    "category": "display",
+    "license": "SIL Open Font License 1.1",
+    "author": "Tyler Finck",
+    "sourceUrl": "https://fonts.google.com/specimen/Tourney",
+    "googleFontFamily": "Tourney:wdth,wght@75..125,100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 75, "max": 125, "defaultVal": 100, "step": 1 }
+    ]
+  },
+  {
+    "id": "georama",
+    "name": "Georama",
+    "category": "sans-serif",
+    "license": "SIL Open Font License 1.1",
+    "author": "Production Type",
+    "sourceUrl": "https://fonts.google.com/specimen/Georama",
+    "googleFontFamily": "Georama:wdth,wght@62.5..150,100..900",
+    "axes": [
+      { "tag": "wght", "name": "Graisse (Weight)", "min": 100, "max": 900, "defaultVal": 400, "step": 10 },
+      { "tag": "wdth", "name": "Chasse (Width)", "min": 62.5, "max": 150, "defaultVal": 100, "step": 2.5 }
+    ]
+  }
+]
