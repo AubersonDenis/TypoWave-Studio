@@ -145,6 +145,16 @@ export async function exportAsPng(
 }
 
 /**
+ * Vérifie si le navigateur supporte l'enregistrement vidéo Canvas + MediaRecorder
+ */
+export function isVideoRecordingSupported(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (typeof MediaRecorder === 'undefined') return false;
+  if (typeof HTMLCanvasElement === 'undefined') return false;
+  return typeof HTMLCanvasElement.prototype.captureStream === 'function';
+}
+
+/**
  * Enregistrement de l'animation en vidéo WebM / MP4 via MediaRecorder
  */
 export async function recordAnimationVideo(
@@ -154,6 +164,10 @@ export async function recordAnimationVideo(
   audioDestination?: MediaStreamAudioDestinationNode | null,
   onProgress?: (progress0to1: number) => void
 ): Promise<Blob> {
+  if (!isVideoRecordingSupported()) {
+    throw new Error("L'enregistrement vidéo n'est pas supporté sur ce navigateur mobile. Utilisez l'export PNG ou SVG.");
+  }
+
   const canvas = document.createElement('canvas');
   canvas.width = 1280;
   canvas.height = 720;
@@ -169,16 +183,20 @@ export async function recordAnimationVideo(
   }
 
   // Choix du format supporté
-  const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=avc1')
-    ? 'video/mp4;codecs=avc1'
-    : MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
-    ? 'video/webm;codecs=vp9'
-    : 'video/webm';
+  const candidateTypes = [
+    'video/mp4;codecs=avc1',
+    'video/mp4',
+    'video/webm;codecs=vp9',
+    'video/webm;codecs=vp8',
+    'video/webm',
+  ];
+  const mimeType = candidateTypes.find((type) => MediaRecorder.isTypeSupported(type)) || '';
 
-  const recorder = new MediaRecorder(combinedStream, {
-    mimeType,
-    videoBitsPerSecond: 6000000,
-  });
+  const recorderOptions: MediaRecorderOptions = mimeType
+    ? { mimeType, videoBitsPerSecond: 6000000 }
+    : { videoBitsPerSecond: 6000000 };
+
+  const recorder = new MediaRecorder(combinedStream, recorderOptions);
 
   const chunks: Blob[] = [];
   recorder.ondataavailable = (e) => {

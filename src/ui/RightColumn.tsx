@@ -212,9 +212,10 @@ export const RightColumn: React.FC<RightColumnProps> = ({
   };
 
   return (
-    <div className="w-full h-full border-l border-[rgba(255,100,100,0.16)] liquid-glass-drawer flex flex-col">
+    <div className="w-full h-full rounded-t-3xl md:rounded-none border-t md:border-t-0 md:border-l border-[rgba(255,100,100,0.2)] liquid-glass-drawer flex flex-col">
+      <div className="w-10 h-1 rounded-full bg-white/25 mx-auto mt-2 md:hidden flex-shrink-0" />
       {onClose && (
-        <div className="px-4 py-3 border-b border-[rgba(255,100,100,0.12)] flex items-center justify-between flex-shrink-0">
+        <div className="px-4 py-2.5 md:py-3 border-b border-[rgba(255,100,100,0.12)] flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
             <Sliders className="w-4 h-4 text-red-400" />
             <span className="text-xs font-bold tracking-wide text-white uppercase">Axes & Environnement Audio</span>
@@ -222,7 +223,7 @@ export const RightColumn: React.FC<RightColumnProps> = ({
           <button
             onClick={onClose}
             title="Fermer le menu audio et axes"
-            className="p-1.5 rounded-xl btn-liquid-secondary text-[#c9adad] hover:text-white"
+            className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-xl btn-liquid-secondary text-[#c9adad] hover:text-white"
           >
             <X className="w-4 h-4" />
           </button>

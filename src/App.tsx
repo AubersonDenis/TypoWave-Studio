@@ -384,8 +384,28 @@ export default function App() {
     [audioEngine, typography, selectedFont]
   );
 
+  const handleToggleLeftDrawer = useCallback(() => {
+    setIsLeftDrawerOpen((prev) => {
+      const next = !prev;
+      if (next && typeof window !== 'undefined' && window.innerWidth < 768) {
+        setIsRightDrawerOpen(false);
+      }
+      return next;
+    });
+  }, []);
+
+  const handleToggleRightDrawer = useCallback(() => {
+    setIsRightDrawerOpen((prev) => {
+      const next = !prev;
+      if (next && typeof window !== 'undefined' && window.innerWidth < 768) {
+        setIsLeftDrawerOpen(false);
+      }
+      return next;
+    });
+  }, []);
+
   return (
-    <div className="h-screen bg-[#0F0404] text-white flex flex-col overflow-hidden font-sans select-none">
+    <div className="h-screen-dynamic bg-[#0F0404] text-white flex flex-col overflow-hidden font-sans select-none">
       {/* 1. Barre d'en-tête avec menus hamburger + menu d'export toujours visible */}
       <Header
         currentFont={selectedFont}
@@ -393,8 +413,8 @@ export default function App() {
         isAudioEnabled={audioSettings.isEnabled}
         isLeftDrawerOpen={isLeftDrawerOpen}
         isRightDrawerOpen={isRightDrawerOpen}
-        onToggleLeftDrawer={() => setIsLeftDrawerOpen((prev) => !prev)}
-        onToggleRightDrawer={() => setIsRightDrawerOpen((prev) => !prev)}
+        onToggleLeftDrawer={handleToggleLeftDrawer}
+        onToggleRightDrawer={handleToggleRightDrawer}
         onToggleAudioEnabled={handleToggleAudioEnabled}
         onSwitchAudioSource={handleSwitchAudioSource}
         onPlayDemoBeat={handleLoadDemoBeat}
@@ -406,18 +426,18 @@ export default function App() {
         onLoadProject={handleLoadProject}
       />
 
-      {/* 2. Corps principal : L'aperçu central se réduit dynamiquement à l'ouverture des menus hamburger */}
+      {/* 2. Corps principal : Bottom-sheet sur mobile/tablette (< md) et réduction dynamique de l'aperçu sur desktop */}
       <main className="flex-1 flex flex-row overflow-hidden relative">
-        {/* Tiroir Hamburger Gauche : Texte, Typographie, Couleur & Effets */}
+        {/* Tiroir Hamburger Gauche : Bottom-sheet sur mobile, tiroir latéral sur desktop */}
         <aside
           aria-hidden={!isLeftDrawerOpen}
-          className={`absolute md:relative top-0 bottom-0 left-0 z-30 h-full flex-shrink-0 overflow-hidden transition-[width,transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`fixed md:relative left-0 right-0 md:right-auto bottom-14 md:bottom-auto md:top-0 z-30 h-[58dvh] md:h-full flex-shrink-0 overflow-hidden transition-[width,transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             isLeftDrawerOpen
-              ? 'w-80 md:w-88 translate-x-0 opacity-100 pointer-events-auto'
-              : 'w-80 md:w-0 -translate-x-full md:translate-x-0 opacity-0 pointer-events-none'
+              ? 'w-full md:w-80 lg:w-88 translate-y-0 md:translate-x-0 opacity-100 pointer-events-auto'
+              : 'w-full md:w-0 translate-y-full md:translate-y-0 opacity-0 pointer-events-none'
           }`}
         >
-          <div className="w-80 md:w-88 h-full">
+          <div className="w-full md:w-80 lg:w-88 h-full">
             <LeftColumn
               fonts={fontsList}
               selectedFont={selectedFont}
@@ -438,8 +458,12 @@ export default function App() {
           </div>
         </aside>
 
-        {/* Aperçu Live Central (se réduit automatiquement quand un menu hamburger s'ouvre) */}
-        <div className="flex-1 min-w-0 h-full flex flex-col relative">
+        {/* Aperçu Live Central (se réduit automatiquement quand un menu hamburger s'ouvre sur desktop, et se recentre au-dessus du tiroir sur mobile) */}
+        <div
+          className={`flex-1 min-w-0 h-full flex flex-col relative transition-[padding] duration-200 ${
+            isLeftDrawerOpen || isRightDrawerOpen ? 'pb-[58dvh] md:pb-0' : 'pb-0'
+          }`}
+        >
           <CenterPreview
             kineticStates={kineticStates}
             selectedFont={selectedFont}
@@ -450,16 +474,16 @@ export default function App() {
           />
         </div>
 
-        {/* Tiroir Hamburger Droit : Variables & Environnement Audio */}
+        {/* Tiroir Hamburger Droit : Bottom-sheet sur mobile, tiroir latéral sur desktop */}
         <aside
           aria-hidden={!isRightDrawerOpen}
-          className={`absolute md:relative top-0 bottom-0 right-0 z-30 h-full flex-shrink-0 overflow-hidden transition-[width,transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`fixed md:relative left-0 right-0 md:left-auto bottom-14 md:bottom-auto md:top-0 z-30 h-[58dvh] md:h-full flex-shrink-0 overflow-hidden transition-[width,transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             isRightDrawerOpen
-              ? 'w-80 md:w-88 translate-x-0 opacity-100 pointer-events-auto'
-              : 'w-80 md:w-0 translate-x-full md:translate-x-0 opacity-0 pointer-events-none'
+              ? 'w-full md:w-80 lg:w-88 translate-y-0 md:translate-x-0 opacity-100 pointer-events-auto'
+              : 'w-full md:w-0 translate-y-full md:translate-y-0 opacity-0 pointer-events-none'
           }`}
         >
-          <div className="w-80 md:w-88 h-full">
+          <div className="w-full md:w-80 lg:w-88 h-full">
             <RightColumn
               currentFont={selectedFont}
               settings={typography}
@@ -480,7 +504,7 @@ export default function App() {
 
         {/* Notification toast discrète */}
         {toastMessage && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-xl liquid-glass border border-red-500/40 text-xs font-medium text-white shadow-2xl pointer-events-none">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-xl liquid-glass border border-red-500/40 text-xs font-medium text-white shadow-2xl pointer-events-none max-w-[90vw] text-center">
             {toastMessage}
           </div>
         )}

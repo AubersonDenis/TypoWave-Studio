@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { X, BookOpen, Music, Sliders, Waves, Sparkles } from 'lucide-react';
 
 interface AboutModalProps {
@@ -14,12 +15,17 @@ interface AboutModalProps {
 export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="liquid-glass border border-red-500/30 rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="liquid-glass border border-red-500/30 rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90dvh]">
         
         {/* Header */}
-        <div className="px-6 py-4 border-b border-red-500/20 flex items-center justify-between">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-red-500/20 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-red-600 to-rose-900 border border-red-400/40 flex items-center justify-center text-white shadow-[0_0_12px_rgba(239,68,68,0.4)]">
               <BookOpen className="w-4 h-4" />
@@ -31,14 +37,14 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl btn-liquid-secondary text-[#c9adad]"
+            className="p-2 rounded-xl btn-liquid-secondary text-[#c9adad]"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Contenu */}
-        <div className="p-6 overflow-y-auto space-y-5 text-xs text-[#c9adad] leading-relaxed flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 text-xs text-[#c9adad] leading-relaxed flex-1">
           
           <section className="space-y-2">
             <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
@@ -110,16 +116,17 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-red-500/20 flex justify-end">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-t border-red-500/20 flex justify-end shrink-0">
           <button
             onClick={onClose}
-            className="btn-liquid-primary px-5 py-2 font-bold text-xs rounded-xl"
+            className="btn-liquid-primary px-5 py-2 font-bold text-xs rounded-xl min-h-[38px]"
           >
             Compris, retour à l'atelier
           </button>
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

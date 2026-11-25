@@ -3,7 +3,7 @@
  * Direction artistique : Fond #0F0404, Verre Liquide (Liquid Glass) et rendu en petits points (Dot Matrix)
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CharacterKineticState } from '../mapping/kineticMapper';
 import { FontItem, TypographySettings } from '../types';
 import { Maximize2, Minimize2, Grid } from 'lucide-react';
@@ -27,16 +27,54 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
 }) => {
   const [showGrid, setShowGrid] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const canFullscreen =
+    typeof document !== 'undefined' && Boolean(document.fullscreenEnabled);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+
+    const updateWidth = () => {
+      setContainerWidth(el.clientWidth);
+    };
+
+    updateWidth();
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFsChange);
+    return () => document.removeEventListener('fullscreenchange', handleFsChange);
+  }, []);
+
   const toggleFullscreen = () => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !canFullscreen) return;
     if (!document.fullscreenElement) {
       containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
     } else {
       document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
     }
   };
+
+  // Mise à l'échelle adaptative uniquement visuelle sur mobile/tablette (sans modifier settings.fontSize pour l'export)
+  const scaleRatio =
+    containerWidth > 0 && containerWidth < 760
+      ? Math.max(0.32, containerWidth / 760)
+      : 1;
+  const displayFontSize = Math.round(settings.fontSize * scaleRatio);
 
   const textAlignClass = {
     left: 'text-left justify-start',
@@ -54,10 +92,10 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
       }}
     >
       {/* Barre d'outils supérieure du viewport */}
-      <div className="absolute top-4 left-5 right-5 flex items-center justify-between pointer-events-none z-10">
+      <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-5 sm:right-5 flex items-center justify-between pointer-events-none z-10">
         <div className="flex items-center gap-2 pointer-events-auto">
           {/* Badge FPS */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full liquid-glass-subtle text-[11px] font-mono shadow-md text-[#d9c4c4]">
+          <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full liquid-glass-subtle text-[11px] font-mono tabular-nums shadow-md text-[#d9c4c4]">
             <span
               className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${
                 fps > 50 ? 'bg-emerald-400 text-emerald-400 animate-pulse' : fps > 30 ? 'bg-amber-400 text-amber-400' : 'bg-red-400 text-red-400'
@@ -68,7 +106,7 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
 
           {/* Témoin de pulsation audio & Effet actif */}
           {isAudioActive && (
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full liquid-glass-subtle text-[11px] font-mono shadow-md text-red-400">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full liquid-glass-subtle text-[11px] font-mono tabular-nums shadow-md text-red-400">
               <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />
               <span>EFFET: {(settings.effect || 'dots').toUpperCase()}</span>
               <span className="text-red-400/40">•</span>
@@ -83,21 +121,23 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
           <button
             onClick={() => setShowGrid(!showGrid)}
             title="Afficher/masquer les repères typographiques"
-            className={`p-2 rounded-xl text-xs transition-all ${
+            className={`p-2 rounded-xl text-xs transition-all min-w-[36px] min-h-[36px] flex items-center justify-center ${
               showGrid ? 'btn-liquid-primary shadow-xs' : 'text-[#8c6f6f] hover:text-white'
             }`}
           >
             <Grid className="w-3.5 h-3.5" />
           </button>
 
-          {/* Plein écran */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? 'Quitter le plein écran' : 'Plein écran'}
-            className="p-2 rounded-xl text-[#8c6f6f] hover:text-white transition-colors"
-          >
-            {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-          </button>
+          {/* Plein écran (masqué sur navigateurs mobiles qui ne le supportent pas hors vidéo) */}
+          {canFullscreen && (
+            <button
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Quitter le plein écran' : 'Plein écran'}
+              className="p-2 rounded-xl text-[#8c6f6f] hover:text-white transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center"
+            >
+              {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            </button>
+          )}
         </div>
       </div>
 
@@ -111,12 +151,12 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
       )}
 
       {/* Zone de rendu central du texte animé */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-14 overflow-auto">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-10 md:p-14 overflow-auto">
         <div
           className={`w-full max-w-5xl flex flex-wrap items-center ${textAlignClass} select-none drop-shadow-[0_10px_35px_rgba(0,0,0,0.9)]`}
           style={{
             fontFamily: `"${selectedFont.name}", sans-serif`,
-            fontSize: `${settings.fontSize}px`,
+            fontSize: `${displayFontSize}px`,
             lineHeight: settings.lineHeight,
           }}
         >
@@ -127,7 +167,7 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
                   key={idx}
                   style={{
                     display: 'inline-block',
-                    width: `${settings.fontSize * 0.3}px`,
+                    width: `${displayFontSize * 0.3}px`,
                   }}
                 >
                   &nbsp;
@@ -137,6 +177,7 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
 
             // Rendu exclusivement en petits points (sans démarcation ni silhouette sous-jacente)
             if (state.dotEffectActive) {
+              const scaledDotGridSize = Math.max(2, Math.round(state.dotGridSize * scaleRatio));
               return (
                 <span
                   key={idx}
@@ -154,7 +195,7 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
                     style={{
                       display: 'inline-block',
                       backgroundImage: `radial-gradient(circle at center, ${state.dotsColor} ${state.dotRadiusPercent}%, transparent ${state.dotRadiusPercent + 2}%)`,
-                      backgroundSize: `${state.dotGridSize}px ${state.dotGridSize}px`,
+                      backgroundSize: `${scaledDotGridSize}px ${scaledDotGridSize}px`,
                       WebkitBackgroundClip: 'text',
                       backgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
@@ -189,11 +230,11 @@ export const CenterPreview: React.FC<CenterPreviewProps> = ({
       </div>
 
       {/* Note d'attribution en bas de viewport */}
-      <div className="absolute bottom-3 left-5 text-[10px] text-[#8c6f6f] pointer-events-none font-mono flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-red-500/50" />
-        <span>{selectedFont.name} • {selectedFont.license} • {selectedFont.author}</span>
-        <span className="text-red-400/40">•</span>
-        <span className="uppercase text-red-300">
+      <div className="absolute bottom-2.5 left-3 right-3 sm:left-5 sm:right-5 text-[10px] text-[#8c6f6f] pointer-events-none font-mono flex items-center gap-2 truncate">
+        <span className="w-1.5 h-1.5 rounded-full bg-red-500/50 shrink-0" />
+        <span className="truncate">{selectedFont.name} • {selectedFont.license} • {selectedFont.author}</span>
+        <span className="text-red-400/40 hidden sm:inline">•</span>
+        <span className="uppercase text-red-300 hidden sm:inline shrink-0">
           {settings.effect === 'dots' ? 'LETTRES EN POINTS' : `EFFET: ${settings.effect}`}
         </span>
       </div>

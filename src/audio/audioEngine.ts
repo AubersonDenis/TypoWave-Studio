@@ -133,6 +133,7 @@ export class AudioEngine {
     const audio = new Audio();
     audio.loop = true;
     audio.preload = 'auto';
+    audio.setAttribute('playsinline', 'true');
 
     audio.onloadedmetadata = () => {
       this.audioDuration = audio.duration || 0;

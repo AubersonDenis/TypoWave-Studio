@@ -11,6 +11,7 @@
  */
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Pipette, Check, Sparkles } from 'lucide-react';
 
 interface ColorPickerModalProps {
@@ -195,56 +196,62 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
     ctx.restore();
   }, [isOpen, hue, sat, val]);
 
-  // Gestion du clic et glissement sur la roue
-  const handleWheelInteract = useCallback((e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
-    const canvas = wheelCanvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-    const dx = x - cx;
-    const dy = y - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const radius = rect.width / 2;
+  // Gestion du toucher / clic / glissement sur la roue (Souris + Tactile via Pointer Events)
+  const handleWheelInteract = useCallback(
+    (e: React.PointerEvent<HTMLCanvasElement> | PointerEvent) => {
+      const canvas = wheelCanvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const dx = x - cx;
+      const dy = y - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const radius = rect.width / 2;
 
-    let angle = Math.atan2(dy, dx);
-    if (angle < 0) angle += Math.PI * 2;
-    const newHue = angle / (Math.PI * 2);
-    const newSat = Math.min(1, dist / radius);
+      let angle = Math.atan2(dy, dx);
+      if (angle < 0) angle += Math.PI * 2;
+      const newHue = angle / (Math.PI * 2);
+      const newSat = Math.min(1, dist / radius);
 
-    setHue(newHue);
-    setSat(newSat);
+      setHue(newHue);
+      setSat(newSat);
 
-    const [r, g, b] = hsvToRgb(newHue, newSat, val);
-    const hex = rgbToHex(r, g, b);
-    setHexInput(hex);
-    onSelectColor(hex);
-  }, [val, onSelectColor]);
+      const [r, g, b] = hsvToRgb(newHue, newSat, val);
+      const hex = rgbToHex(r, g, b);
+      setHexInput(hex);
+      onSelectColor(hex);
+    },
+    [val, onSelectColor]
+  );
 
-  const handleMouseDownWheel = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handlePointerDownWheel = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
     setIsDraggingWheel(true);
     handleWheelInteract(e);
   };
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       if (isDraggingWheel) {
         handleWheelInteract(e);
       }
     };
-    const handleMouseUp = () => {
+    const handlePointerUp = () => {
       setIsDraggingWheel(false);
     };
 
     if (isDraggingWheel) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointerup', handlePointerUp);
+      window.addEventListener('pointercancel', handlePointerUp);
     }
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
     };
   }, [isDraggingWheel, handleWheelInteract]);
 
@@ -288,31 +295,36 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
   const currentRgb = hsvToRgb(hue, sat, val);
   const activeHex = rgbToHex(currentRgb[0], currentRgb[1], currentRgb[2]);
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="liquid-glass border border-red-500/30 rounded-3xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col animate-scaleUp">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="liquid-glass border border-red-500/30 rounded-3xl max-w-md w-full max-h-[90dvh] shadow-2xl overflow-hidden flex flex-col animate-scaleUp">
         
         {/* Header de la modale */}
-        <div className="px-6 py-4 border-b border-red-500/20 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-red-600 to-rose-900 border border-red-400/40 flex items-center justify-center text-white shadow-[0_0_12px_rgba(239,68,68,0.4)]">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-red-500/20 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-red-600 to-rose-900 border border-red-400/40 flex items-center justify-center text-white shadow-[0_0_12px_rgba(239,68,68,0.4)] shrink-0">
               <Pipette className="w-4 h-4" />
             </div>
-            <div>
-              <h2 className="font-bold text-base text-white">{title || "Roue Chromatique Typo"}</h2>
-              <p className="text-[11px] text-[#8c6f6f]">{subtitle || "Sélection de couleur précise & code hexadécimal"}</p>
+            <div className="min-w-0">
+              <h2 className="font-bold text-sm sm:text-base text-white truncate">{title || "Roue Chromatique Typo"}</h2>
+              <p className="text-[11px] text-[#8c6f6f] truncate">{subtitle || "Sélection de couleur précise & code hexadécimal"}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl btn-liquid-secondary text-[#c9adad]"
+            className="p-2 rounded-xl btn-liquid-secondary text-[#c9adad] shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Corps du sélecteur */}
-        <div className="p-6 space-y-5">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 overflow-y-auto flex-1">
           
           {/* 1. Roue Chromatique Canvas & Preview */}
           <div className="flex flex-col items-center justify-center gap-4">
@@ -321,8 +333,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
                 ref={wheelCanvasRef}
                 width={190}
                 height={190}
-                onMouseDown={handleMouseDownWheel}
-                className="w-[190px] h-[190px] rounded-full cursor-crosshair block"
+                onPointerDown={handlePointerDownWheel}
+                className="w-[168px] h-[168px] sm:w-[190px] sm:h-[190px] rounded-full cursor-crosshair block touch-none"
               />
             </div>
 
@@ -421,16 +433,17 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-red-500/20 flex justify-end">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-t border-red-500/20 flex justify-end shrink-0">
           <button
             onClick={onClose}
-            className="btn-liquid-primary px-5 py-2 font-bold text-xs rounded-xl"
+            className="btn-liquid-primary px-5 py-2 font-bold text-xs rounded-xl min-h-[38px]"
           >
             Appliquer cette couleur
           </button>
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

@@ -4,9 +4,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { CharacterKineticState } from '../mapping/kineticMapper';
 import { FontItem, TypographySettings } from '../types';
-import { generateSvgExport, exportAsPng, triggerDownload, recordAnimationVideo } from '../export/exportManager';
+import { generateSvgExport, exportAsPng, triggerDownload, recordAnimationVideo, isVideoRecordingSupported } from '../export/exportManager';
 import { 
   X, 
   FileCode, 
@@ -16,7 +17,8 @@ import {
   ShieldCheck, 
   Download, 
   Loader2,
-  CheckCircle2
+  CheckCircle2,
+  AlertTriangle
 } from 'lucide-react';
 
 interface ExportModalProps {
@@ -46,18 +48,27 @@ export const ExportModal: React.FC<ExportModalProps> = ({
   const [videoDuration, setVideoDuration] = useState<number>(6);
   const [includeAudioInVideo, setIncludeAudioInVideo] = useState(true);
   const [exportSuccessMessage, setExportSuccessMessage] = useState<string | null>(null);
+  const [exportErrorMessage, setExportErrorMessage] = useState<string | null>(null);
+  const videoSupported = isVideoRecordingSupported();
 
   useEffect(() => {
     if (isOpen) {
       setActiveTab(initialTab);
+      setExportErrorMessage(null);
     }
   }, [isOpen, initialTab]);
 
   if (!isOpen) return null;
 
   const showSuccess = (msg: string) => {
+    setExportErrorMessage(null);
     setExportSuccessMessage(msg);
     setTimeout(() => setExportSuccessMessage(null), 4000);
+  };
+
+  const showError = (msg: string) => {
+    setExportSuccessMessage(null);
+    setExportErrorMessage(msg);
   };
 
   const handleExportSvg = () => {
@@ -74,14 +85,19 @@ export const ExportModal: React.FC<ExportModalProps> = ({
       const filename = `typowave-${selectedFont.name.toLowerCase().replace(/\s+/g, '-')}-${scale}x.png`;
       await exportAsPng(svg, scale, filename);
       showSuccess(`Image PNG (${scale}x Retina) téléchargée !`);
-    } catch (err) {
-      alert("Erreur lors de la génération PNG.");
+    } catch {
+      showError("Erreur lors de la génération PNG.");
     }
   };
 
   const handleExportVideo = async () => {
+    if (!videoSupported) {
+      showError("La capture vidéo n'est pas disponible sur ce navigateur mobile. Privilégiez SVG ou PNG.");
+      return;
+    }
     setIsRecording(true);
     setRecordProgress(0);
+    setExportErrorMessage(null);
     try {
       const blob = await recordAnimationVideo(
         renderFrameToCanvas,
@@ -95,9 +111,9 @@ export const ExportModal: React.FC<ExportModalProps> = ({
       const filename = `typowave-animation-${Date.now()}.${ext}`;
       triggerDownload(blob, filename);
       showSuccess(`Animation vidéo (${ext.toUpperCase()}) enregistrée avec succès !`);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
-      alert("Erreur lors de l'enregistrement de la vidéo.");
+      showError((err as Error)?.message || "Erreur lors de l'enregistrement de la vidéo.");
     } finally {
       setIsRecording(false);
       setRecordProgress(0);
@@ -126,12 +142,15 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     showSuccess("Configuration JSON exportée !");
   };
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="liquid-glass border border-red-500/30 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] bg-black/75 backdrop-blur-md flex items-center justify-center p-4" onClick={onClose}>
+      <div
+        className="bg-[#140505]/95 backdrop-blur-2xl border border-red-500/30 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[90dvh]"
+        onClick={(e) => e.stopPropagation()}
+      >
         
         {/* Header */}
-        <div className="px-6 py-4 border-b border-red-500/20 flex items-center justify-between">
+        <div className="px-5 sm:px-6 py-4 border-b border-red-500/20 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-red-600 to-rose-900 border border-red-400/40 flex items-center justify-center text-white shadow-[0_0_12px_rgba(239,68,68,0.4)]">
               <Download className="w-4 h-4" />
@@ -143,32 +162,38 @@ export const ExportModal: React.FC<ExportModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl btn-liquid-secondary text-[#c9adad]"
+            className="p-2 rounded-xl btn-liquid-secondary text-[#c9adad]"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Message de succès */}
+        {/* Message de succès ou d'erreur */}
         {exportSuccessMessage && (
-          <div className="mx-6 mt-4 p-3 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-200 text-xs flex items-center gap-2 shadow-lg animate-fadeIn">
+          <div className="mx-5 sm:mx-6 mt-4 p-3 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-200 text-xs flex items-center gap-2 shadow-lg">
             <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
             <span>{exportSuccessMessage}</span>
           </div>
         )}
+        {exportErrorMessage && (
+          <div className="mx-5 sm:mx-6 mt-4 p-3 rounded-xl bg-red-950/80 border border-red-500/50 text-red-200 text-xs flex items-center gap-2 shadow-lg">
+            <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
+            <span>{exportErrorMessage}</span>
+          </div>
+        )}
 
         {/* Onglets */}
-        <div className="flex border-b border-red-500/20 px-6 gap-2 pt-3">
+        <div className="flex border-b border-red-500/20 px-4 sm:px-6 gap-1.5 sm:gap-2 pt-3 overflow-x-auto">
           <button
             onClick={() => setActiveTab('still')}
-            className={`py-2 px-3 text-xs font-semibold rounded-t-xl transition-all flex items-center gap-1.5 ${
+            className={`py-2 px-3 text-xs font-semibold rounded-t-xl transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
               activeTab === 'still'
                 ? 'btn-liquid-primary shadow-sm'
                 : 'text-[#8c6f6f] hover:text-white'
             }`}
           >
             <ImageIcon className="w-4 h-4" />
-            <span>Image Figée (SVG / PNG)</span>
+            <span>SVG / PNG</span>
           </button>
 
           <button
@@ -261,6 +286,18 @@ export const ExportModal: React.FC<ExportModalProps> = ({
               <p className="text-[#a88d8d]">
                 Enregistre l'animation cinétique à 60 images par seconde avec le flux sonore actif.
               </p>
+
+              {!videoSupported && (
+                <div className="p-3.5 rounded-2xl bg-amber-950/50 border border-amber-500/40 text-amber-200 text-xs flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-white">Capture vidéo limitée sur ce navigateur mobile</p>
+                    <p className="text-[11px] text-amber-200/80 mt-0.5">
+                      Votre navigateur (ex. iOS Safari) ne supporte pas encore l'enregistrement Canvas via MediaRecorder. Utilisez l'export <strong>SVG / PNG</strong> ou lancez la capture depuis un navigateur ordinateur.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-3 p-4 rounded-2xl liquid-glass-subtle border border-red-500/20">
                 <div className="space-y-1.5">
@@ -368,6 +405,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
